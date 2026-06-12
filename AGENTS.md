@@ -3,6 +3,10 @@
 Medical triage aid for rural Central Africa. Flutter + Firebase, offline-first.
 Do **not** read this if you have loaded `CLAUDE.md` — this is a compact supplement.
 
+## Règle absolue
+
+**Ne jamais modifier aucun fichier de ce projet sans l'autorisation explicite du propriétaire (Ashad).**
+
 ## Before any task
 
 1. Read `PROGRESS.md` — state of truth, last session details, next steps.
