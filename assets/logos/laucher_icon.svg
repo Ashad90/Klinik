@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Klinik">
+  <rect x="30" y="22" width="13" height="56" rx="3.5" fill="#557CDC"></rect>
+  <path d="M43 50 L72 22" fill="none" stroke="#557CDC" stroke-width="13" stroke-linecap="round"></path>
+  <path d="M43 50 L72 78" fill="none" stroke="#59C3C3" stroke-width="13" stroke-linecap="round"></path>
+</svg>

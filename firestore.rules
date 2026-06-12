@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Modèle d'appartenance (Option B — sans custom claims) ──────────────────
+    // L'appartenance à une entité n'est PAS dérivée d'un custom claim
+    // (request.auth.token.entityId), mais de l'EXISTENCE du document utilisateur
+    // /entities/{entityId}/users/{uid}. get()/exists() dans les règles sont des
+    // lectures privilégiées (non soumises aux règles cibles) → pas de récursion.
+    // Le rôle est lu dans ce même document. Ce modèle tourne sur le plan Spark
+    // (gratuit), sans Cloud Functions. Si le plan Blaze est activé plus tard, on
+    // pourra revenir aux custom claims (Cloud Function setUserClaims).
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isMember(entityId) {
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/entities/$(entityId)/users/$(request.auth.uid));
+    }
+
+    function memberRole(entityId) {
+      return get(/databases/$(database)/documents/entities/$(entityId)/users/$(request.auth.uid)).data.role;
+    }
+
+    function hasRole(entityId, role) {
+      return isMember(entityId) && memberRole(entityId) == role;
+    }
+
+    function isAdminOfEntity(entityId) {
+      return hasRole(entityId, 'admin');
+    }
+
+    // Le compte est-il un vrai compte (email) et non une session anonyme ?
+    // L'auth anonyme ne sert qu'au flux « Rejoindre » (demande candidat).
+    function isNotAnonymous() {
+      return request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+
+    // Annuaire public minimal pour la recherche d'entités (Jour 4).
+    // AUCUNE donnée sensible ici : uniquement {name, nameLower, city, type}.
+    // Écrit dans le batch de création d'entité (getAfter voit l'état post-batch).
+    match /publicEntities/{entityId} {
+      allow read:   if isAuthenticated();
+      allow create, update: if isAdminOfEntity(entityId) ||
+        getAfter(/databases/$(database)/documents/entities/$(entityId)).data.createdBy == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // Entités
+    match /entities/{entityId} {
+      allow read:   if isMember(entityId);
+      allow create: if isAuthenticated() && isNotAnonymous();
+      allow update: if isAdminOfEntity(entityId);
+      allow delete: if false;
+
+      // Utilisateurs
+      match /users/{uid} {
+        allow read:   if isMember(entityId);
+        // Création : l'admin ajoute un membre (approbation), OU le créateur de
+        // l'entité amorce son propre document dans le batch de création
+        // (getAfter lit l'état post-batch : entités + users écrits ensemble).
+        // JAMAIS d'auto-ajout libre : un utilisateur authentifié quelconque ne
+        // peut pas se faire membre/admin d'une entité.
+        allow create: if isAdminOfEntity(entityId) ||
+          (request.auth.uid == uid &&
+           getAfter(/databases/$(database)/documents/entities/$(entityId)).data.createdBy == request.auth.uid);
+        // Mise à jour : l'admin, OU soi-même SANS changer son rôle
+        // (anti-escalade : un agent ne peut pas se promouvoir admin).
+        allow update: if isAdminOfEntity(entityId) ||
+          (request.auth.uid == uid && request.resource.data.role == resource.data.role);
+        allow delete: if isAdminOfEntity(entityId);
+      }
+
+      // Candidats en attente (un candidat n'est pas encore membre).
+      // Le candidat (session anonyme autorisée) crée sa demande en statut
+      // pending_approval uniquement — le code et l'approbation viennent de l'admin.
+      match /pendingUsers/{uid} {
+        allow read:   if isAdminOfEntity(entityId) || request.auth.uid == uid;
+        allow create: if isAuthenticated() && request.auth.uid == uid &&
+          request.resource.data.status == 'pending_approval';
+        allow update: if isAdminOfEntity(entityId);
+        allow delete: if isAdminOfEntity(entityId);
+      }
+
+      // Patients
+      match /patients/{patientId} {
+        allow read:   if isMember(entityId);
+        allow create: if hasRole(entityId, 'agent') || hasRole(entityId, 'medecin') || hasRole(entityId, 'admin');
+        allow update: if isMember(entityId);
+        allow delete: if isAdminOfEntity(entityId);
+      }
+
+      // Scans
+      match /scans/{scanId} {
+        allow read:   if isMember(entityId);
+        allow create: if hasRole(entityId, 'agent') || hasRole(entityId, 'medecin') || hasRole(entityId, 'admin');
+        allow update: if isMember(entityId) &&
+          (hasRole(entityId, 'medecin') || hasRole(entityId, 'admin') ||
+          (hasRole(entityId, 'agent') && resource.data.status == 'pending_claim'));
+        allow delete: if isAdminOfEntity(entityId);
+      }
+
+      // Validations — jamais supprimées (archives médicales)
+      match /validations/{validationId} {
+        allow read:   if isMember(entityId);
+        allow create: if hasRole(entityId, 'medecin') || hasRole(entityId, 'admin');
+        allow update: if hasRole(entityId, 'medecin') || hasRole(entityId, 'admin');
+        allow delete: if false;
+      }
+    }
+
+    // Analytics agrégés — Super Admin uniquement (pas de données patients)
+    match /analytics/{document=**} {
+      allow read:  if false; // accès via Firebase Admin SDK (Cloud Functions) uniquement
+      allow write: if false;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash natif API 21-22. Fond bleu Klinik (le logo centré est ajouté en
+     drawable-v23 où android:width/height sur les items de layer-list existe). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/klinik_splash_bg" />
+</layer-list>

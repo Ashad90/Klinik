@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash natif Android 6-11 (API 23-30). Fond bleu Klinik + « K » blanc centré.
+     android:width/android:height sur un item de layer-list requiert l'API 23. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/klinik_splash_bg" />
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:drawable="@drawable/klinik_splash_logo"
+        android:gravity="center" />
+</layer-list>

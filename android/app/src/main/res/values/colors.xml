@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fond du splash natif = accent Klinik (#557CDC, KlinikColors.accent /
+         gradientSplashMid) pour un raccord visuel avec le splash Flutter. -->
+    <color name="klinik_splash_bg">#FF557CDC</color>
+
+    <!-- Fond de l'icône adaptative : bleu de marque (#557CDC), identique au splash,
+         avec un « K » blanc/teal en avant-plan → identité cohérente splash ⇄ icône. -->
+    <color name="ic_launcher_background">#FF557CDC</color>
+</resources>

@@ -1,0 +1,29 @@
+<!-- Calque monochrome pour les icônes thématiques (Android 13+). Le système
+     applique sa propre teinte ; seule la forme du « K » compte ici. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54.25"
+        android:pivotY="50"
+        android:scaleX="0.87"
+        android:scaleY="0.87"
+        android:translateX="-0.25"
+        android:translateY="4">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M33.5,22 L39.5,22 A3.5,3.5 0 0 1 43,25.5 L43,74.5 A3.5,3.5 0 0 1 39.5,78 L33.5,78 A3.5,3.5 0 0 1 30,74.5 L30,25.5 A3.5,3.5 0 0 1 33.5,22 Z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="13"
+            android:strokeLineCap="round"
+            android:pathData="M43,50 L72,22" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="13"
+            android:strokeLineCap="round"
+            android:pathData="M43,50 L72,78" />
+    </group>
+</vector>

@@ -1,0 +1,35 @@
+<!-- Logo KMark blanc (depuis assets/logos/klinik-mark-white.svg) en VectorDrawable.
+     Utilisé par le splash natif (Android 12+ windowSplashScreenAnimatedIcon
+     et le launch_background pré-12). Le group recentre et marge l'artwork dans
+     le cercle de masque du SplashScreen Android 12. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Centre VISUEL du K = (54.25, 50). On scale autour de ce point (pivot fixe)
+         puis on translate de (-4.25, 0) pour amener le centre du K au centre du
+         viewport (50, 50). scale 0.7 garde le K dans le cercle de masque ~2/3
+         d'Android 12 (rayon visuel ≈ 29.5/50) → plus de rognage ni de décalage. -->
+    <group
+        android:pivotX="54.25"
+        android:pivotY="50"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateX="-4.25"
+        android:translateY="0">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M33.5,22 L39.5,22 A3.5,3.5 0 0 1 43,25.5 L43,74.5 A3.5,3.5 0 0 1 39.5,78 L33.5,78 A3.5,3.5 0 0 1 30,74.5 L30,25.5 A3.5,3.5 0 0 1 33.5,22 Z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="13"
+            android:strokeLineCap="round"
+            android:pathData="M43,50 L72,22" />
+        <path
+            android:strokeColor="#7FDADA"
+            android:strokeWidth="13"
+            android:strokeLineCap="round"
+            android:pathData="M43,50 L72,78" />
+    </group>
+</vector>

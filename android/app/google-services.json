@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "601953997165",
+    "project_id": "klinik-95a79",
+    "storage_bucket": "klinik-95a79.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601953997165:android:d25295da67cd2cf10a4a64",
+        "android_client_info": {
+          "package_name": "com.ashad.klinik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601953997165-09eanib5no3ie3fgo0ip3j4624dagid1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPwOQDI9_6htJXddaTgNHrdU0qimkkQww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601953997165-09eanib5no3ie3fgo0ip3j4624dagid1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601953997165:android:ef647c4be95eb8600a4a64",
+        "android_client_info": {
+          "package_name": "com.klinik.klinik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601953997165-09eanib5no3ie3fgo0ip3j4624dagid1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPwOQDI9_6htJXddaTgNHrdU0qimkkQww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601953997165-09eanib5no3ie3fgo0ip3j4624dagid1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

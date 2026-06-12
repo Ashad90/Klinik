@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ (API 31+) : SplashScreen API. Sans cet override, le système
+         affiche l'icône de lancement (ic_launcher, encore le logo Flutter) sur
+         le colorBackground du thème. On force le fond bleu Klinik + le « K » blanc. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/klinik_splash_bg</item>
+        <item name="android:windowSplashScreenBackground">@color/klinik_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/klinik_splash_logo</item>
+    </style>
+</resources>

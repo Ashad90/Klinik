@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Splash natif pré-Android 12 (fallback API < 21). Fond bleu Klinik. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/klinik_splash_bg" />
+</layer-list>

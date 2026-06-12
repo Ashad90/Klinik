@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Android 12+ en mode sombre. Le qualificatif -night prime sur -v31, donc
+         un appareil API 31+ en dark mode résout ce fichier (et non values-v31).
+         Le splash de marque reste bleu quel que soit le mode clair/sombre. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/klinik_splash_bg</item>
+        <item name="android:windowSplashScreenBackground">@color/klinik_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/klinik_splash_logo</item>
+    </style>
+</resources>

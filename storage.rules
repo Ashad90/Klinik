@@ -1,0 +1,36 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // PDF médicaux — par entité, 10 MB max
+    match /entities/{entityId}/pdfs/{allPaths=**} {
+      allow read:  if request.auth != null && request.auth.token.entityId == entityId;
+      allow write: if request.auth != null
+                   && request.auth.token.entityId == entityId
+                   && request.resource.size < 10 * 1024 * 1024
+                   && request.resource.contentType.matches('application/pdf');
+    }
+
+    // Ordonnances signées (PDF ou image) — 10 MB max
+    match /entities/{entityId}/ordonnances/{allPaths=**} {
+      allow read:  if request.auth != null && request.auth.token.entityId == entityId;
+      allow write: if request.auth != null
+                   && request.auth.token.entityId == entityId
+                   && request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Logos des entités — 2 MB max
+    match /entities/{entityId}/logo/{allPaths=**} {
+      allow read:  if request.auth != null;
+      allow write: if request.auth != null
+                   && request.auth.token.entityId == entityId
+                   && request.resource.size < 2 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // Tout le reste est interdit
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
